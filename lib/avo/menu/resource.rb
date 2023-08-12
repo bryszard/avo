@@ -3,9 +3,17 @@ class Avo::Menu::Resource < Avo::Menu::BaseItem
 
   option :resource
   option :label, optional: true
+  option :params, optional: true
 
   def parsed_resource
-    Avo::App.guess_resource resource.to_s
+    guessed_resource = Avo::App.guess_resource resource.to_s
+
+    if params.present?
+      guessed_resource.params ||= {}
+      guessed_resource.params.merge!(params: params)
+    end
+
+    guessed_resource
   end
 
   def entity_label

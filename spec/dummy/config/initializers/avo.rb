@@ -102,6 +102,9 @@ Avo.configure do |config|
         resource "UserResource", visible: -> do
           authorize current_user, User, "index?", raise_exception: false
         end
+        resource "UserResource", label: "Admins", params: { filters: "eyJJc0FkbWluIjpbImFkbWlucyJdfQ" }, visible: -> do
+          authorize current_user, User, "index?", raise_exception: false
+        end
         resource :people
         resource :spouses
       end
