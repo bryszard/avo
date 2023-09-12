@@ -6,17 +6,14 @@ class Avo::Menu::Resource < Avo::Menu::BaseItem
   option :params, optional: true
 
   def parsed_resource
-    guessed_resource = Avo::App.guess_resource resource.to_s
-
-    if params.present?
-      guessed_resource.params ||= {}
-      guessed_resource.params.merge!(params: params)
-    end
-
-    guessed_resource
+    Avo::App.guess_resource resource.to_s
   end
 
   def entity_label
     parsed_resource.navigation_label
+  end
+
+  def fetch_params
+    params || {}
   end
 end

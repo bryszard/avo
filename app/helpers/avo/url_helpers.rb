@@ -3,15 +3,20 @@ module Avo
     def resources_path(resource:, keep_query_params: false, **args)
       return if resource.nil?
 
-      query_params = {}
-      query_params = existing_params if keep_query_params
-      query_params = pass_resource_params(resource, query_params)
+      existing_params = {}
+      if keep_query_params
+        begin
+          existing_params =
+            Addressable::URI.parse(request.fullpath).query_values.symbolize_keys
+        rescue
+        end
+      end
 
       route_key = resource.route_key
       # Add the `_index` suffix for the uncountable names so they get the correct path (`fish_index`)
       route_key << "_index" if resource.route_key == resource.singular_route_key
 
-      avo.send :"resources_#{route_key}_path", **query_params, **args
+      avo.send :"resources_#{route_key}_path", **existing_params, **args
     end
 
     def resource_path(
@@ -78,23 +83,6 @@ module Avo
       else
         resource_path(**args)
       end
-    end
-
-    private
-
-    def existing_params
-      Addressable::URI.parse(request.fullpath).query_values.symbolize_keys
-    rescue
-      {}
-    end
-
-    def pass_resource_params(resource, query_params)
-      resource_params = resource.params&.fetch(:params, nil)
-
-      return query_params unless resource_params
-
-      resource_params.permit! if resource_params.is_a?(ActionController::Parameters)
-      query_params.merge(resource_params)
     end
   end
 end
