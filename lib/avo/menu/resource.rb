@@ -3,7 +3,7 @@ class Avo::Menu::Resource < Avo::Menu::BaseItem
 
   option :resource
   option :label, optional: true
-  option :params, optional: true
+  option :params, default: proc { {} }
 
   def parsed_resource
     Avo::App.guess_resource resource.to_s
