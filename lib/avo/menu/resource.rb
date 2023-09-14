@@ -14,6 +14,9 @@ class Avo::Menu::Resource < Avo::Menu::BaseItem
   end
 
   def fetch_params
-    params || {}
+    Avo::ExecutionContext.new(
+      target: params,
+      resource: resource
+    ).handle
   end
 end
