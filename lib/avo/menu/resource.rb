@@ -4,6 +4,7 @@ class Avo::Menu::Resource < Avo::Menu::BaseItem
   option :resource
   option :label, optional: true
   option :params, default: proc { {} }
+  option :path_key, optional: true
 
   def parsed_resource
     Avo::App.guess_resource resource.to_s

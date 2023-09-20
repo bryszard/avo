@@ -17,7 +17,14 @@ module Avo
               resource.is_a? Class
             end
             .map do |resource|
-              resources resource.new.route_key
+              resource_instance = resource.new
+              route_key = resource_instance.route_key
+
+              resources route_key
+
+              resource_instance.alternative_route_keys.each do |alternative_route_key|
+                get alternative_route_key, to: "#{route_key}#index"
+              end
             end
         end
       end

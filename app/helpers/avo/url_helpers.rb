@@ -1,6 +1,6 @@
 module Avo
   module UrlHelpers
-    def resources_path(resource:, keep_query_params: false, **args)
+    def resources_path(resource:, path_key: nil, keep_query_params: false, **args)
       return if resource.nil?
 
       existing_params = {}
@@ -12,7 +12,7 @@ module Avo
         end
       end
 
-      route_key = resource.route_key
+      route_key = path_key || resource.route_key
       # Add the `_index` suffix for the uncountable names so they get the correct path (`fish_index`)
       route_key << "_index" if resource.route_key == resource.singular_route_key
 
