@@ -102,10 +102,10 @@ Avo.configure do |config|
         resource "UserResource", visible: -> do
           authorize current_user, User, "index?", raise_exception: false
         end
-        resource "UserResource", label: "Admins", path_key: :admins, params: { filters: "eyJJc0FkbWluIjpbImFkbWlucyJdfQ" }, visible: -> do
+        resource "UserResource", label: "Admins", params: { filters: "eyJJc0FkbWluIjpbImFkbWlucyJdfQ" }, visible: -> do
           authorize current_user, User, "index?", raise_exception: false
         end
-        resource "UserResource", label: "Non-admins", path_key: :non_admins, params: -> do
+        resource "UserResource", label: "Non-admins", params: -> do
           decoded_filter = {"IsAdmin"=>["non_admins"]}
 
           { filters: Avo::Filters::BaseFilter.encode_filters(decoded_filter)}

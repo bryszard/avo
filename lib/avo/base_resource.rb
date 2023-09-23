@@ -416,10 +416,6 @@ module Avo
       route_key.singularize
     end
 
-    def alternative_route_keys
-      []
-    end
-
     # This is used as the model class ID
     # We use this instead of the route_key to maintain compatibility with uncountable models
     # With uncountable models route key appends an _index suffix (Fish->fish_index)

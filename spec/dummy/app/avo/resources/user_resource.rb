@@ -150,8 +150,4 @@ class UserResource < Avo::BaseResource
   filter DummyMultipleSelectFilter
 
   tool UserTool
-
-  def alternative_route_keys
-    [:admins, :non_admins]
-  end
 end
